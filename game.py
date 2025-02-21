@@ -1,25 +1,6 @@
 import random
 import os
-"""
-right_map = {
-  0:,
-  1:,
-  2:,
-  3:,
-  4:,
-  5:,
-  6:,
-  7:,
-  8:,
-  9:,
-  10:,
-  11:,
-  12:,
-  13:,
-  14:,
-  15:,
-}
-"""
+
 up_map = {
   0:0,
   1:4,
@@ -80,13 +61,22 @@ def check_no_move(state):
     raise ValueError()
   return all(state[i]!=state[i+1] for i in [0,1,2,4,5,6,8,9,10,12,13,14])
     
-ADD_RATE = 0.6
+ADD_RATE = 0.7
 
+user_input_map = {
+  'l':0,
+  'r':1,
+  'u':2,
+  'd':3,
+}
 class Game():
   def __init__(self):
     self.prev_state = [1] * 16
     self.state = [0] * 16
     self.score = 0
+    self.moves = 0
+    self.state[
+      random.randint(0,15)] = 2
   def print(self, state=None):
     #os.system("clear")
     if state is None:
@@ -100,44 +90,53 @@ class Game():
       print("+" + "----+"*4)
   def add(self):
     if not all(self.prev_state[i] == self.state[i] for i in range(16)):
+      self.moves += 1
       zeros = [i for i,j in enumerate(self.state) if j == 0]
-      if len(zeros) and random.random() > ADD_RATE:
-        print("Add Number")
+      if len(zeros) and random.random() < ADD_RATE:
+        # print("Add Number")
         self.state[random.choice(zeros)] = 2
       else:
-        print("No Add")
+        pass # print("No Add")
       self.prev_state = list(self.state)
     else:
-      print("NO ACTION")
+      pass # print("NO ACTION")
   def finished(self):
     no_zero = all(num != 0 for num in self.state)
     no_horizontal_move = check_no_move(self.state)
     trans = [self.state[up_map[i]] for i in range(16)]
     no_vert_move = check_no_move(trans)
-    print(no_zero, no_horizontal_move, no_vert_move)
+    # print(f"No 0:{no_zero}, No h: {no_horizontal_move}, No v: {no_vert_move}")
     return no_zero and no_horizontal_move and no_vert_move
   def wait(self):
     user_input = input("""
     choose a direction:
     up[u] down[d] left[l] right[r]
     """)
-    if user_input == "u":
-      self.up()
-    elif user_input == "d":
-      self.down()
-    elif user_input == "l":
-      self.left()
-    elif user_input == "r":
-      self.right()
-    else:
-      print("Invalid Input")
+
+    if user_input not in user_input_map:
+      print("Invalid input")
       self.wait()
+    else:
+      self.action(user_input_map[user_input])
   def action(self, action):
-    switch (action):
+    start_score = self.score
+    match action:
       case 0:
+        # print("LEFT")
         self.left()
-      c
-    
+      case 1:
+        # print("RIGHT")
+        self.right()
+      case 2:
+        # print("UP")
+        self.up()
+      case 3:
+        # print("DOWN")
+        self.down()
+      case _:
+        print("Invalid Action")
+    self.add()
+    return self.score - start_score
   def left(self):
     self.state = self.reduce_grid(self.state)
   def right(self):
