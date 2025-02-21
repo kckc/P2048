@@ -80,6 +80,7 @@ def check_no_move(state):
     raise ValueError()
   return all(state[i]!=state[i+1] for i in [0,1,2,4,5,6,8,9,10,12,13,14])
     
+ADD_RATE = 0.6
 
 class Game():
   def __init__(self):
@@ -100,9 +101,11 @@ class Game():
   def add(self):
     if not all(self.prev_state[i] == self.state[i] for i in range(16)):
       zeros = [i for i,j in enumerate(self.state) if j == 0]
-      if len(zeros):
+      if len(zeros) and random.random() > ADD_RATE:
         print("Add Number")
         self.state[random.choice(zeros)] = 2
+      else:
+        print("No Add")
       self.prev_state = list(self.state)
     else:
       print("NO ACTION")
@@ -114,10 +117,27 @@ class Game():
     print(no_zero, no_horizontal_move, no_vert_move)
     return no_zero and no_horizontal_move and no_vert_move
   def wait(self):
-    print("""
+    user_input = input("""
     choose a direction:
     up[u] down[d] left[l] right[r]
     """)
+    if user_input == "u":
+      self.up()
+    elif user_input == "d":
+      self.down()
+    elif user_input == "l":
+      self.left()
+    elif user_input == "r":
+      self.right()
+    else:
+      print("Invalid Input")
+      self.wait()
+  def action(self, action):
+    switch (action):
+      case 0:
+        self.left()
+      c
+    
   def left(self):
     self.state = self.reduce_grid(self.state)
   def right(self):

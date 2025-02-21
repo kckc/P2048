@@ -6,7 +6,7 @@ print("New Game")
 while not g.finished():
   g.add()
   g.print()
-  
+  # g.wait()
   match random.randint(0,3):
     case 0:
       print("LEFT")
@@ -21,7 +21,7 @@ while not g.finished():
       print("DOWN")
       g.down()
   g.print()
-print(f"Score: {g.score}")
+  print(f"Score: {g.score}")
 
 # while game not finished
 # if prev state != curr state

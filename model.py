@@ -10,8 +10,9 @@ def dot(arr1, arr2):
 def scale(arr, factor):
   return [i*factor for i in arr]
   
-class Model():
+class AllConnectedModel():
   def _init__(self, model):
+    self.learning_rate = 0.01
     self.gen = 0
     self.left = [random.random()]*16
     self.right = [random.random()]*16
@@ -47,5 +48,8 @@ class Model():
     
   def learn(self, action, feedback):
     # find weights from action
-    # if feedback + then = 
+    # if feedback 0, reduce weight, if + increase weight by the feedback
+    # normalise weight
+    
+    
     return
