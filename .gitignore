@@ -1,0 +1,6 @@
+venv*
+.replit*
+.replit
+__pycache__
+.pythonlibs
+.upm
